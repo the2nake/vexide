@@ -159,48 +159,16 @@ mod test {
 
     #[test]
     fn toggles_banner_using_parsed_opts() {
-        let source = quote! {
-            async fn main(_peripherals: Peripherals) {
-                println!("Hello, world!");
-            }
-        };
-        let input = syn::parse2::<ItemFn>(source.clone()).unwrap();
-        let entrypoint = make_entrypoint(
-            input.clone(),
-            MacroOpts {
-                banner_enabled: false,
-                banner_theme: None,
-            },
-        );
+        let entrypoint = make_entrypoint(MacroOpts {
+            banner: false,
+        });
         assert!(entrypoint.to_string().contains("false"));
         assert!(!entrypoint.to_string().contains("true"));
-
-        let entrypoint = make_entrypoint(
-            input,
-            MacroOpts {
-                banner_enabled: true,
-                banner_theme: None,
-            },
-        );
+        let entrypoint = make_entrypoint(MacroOpts {
+            banner: true,
+        });
         assert!(entrypoint.to_string().contains("true"));
         assert!(!entrypoint.to_string().contains("false"));
-    }
-
-    #[test]
-    fn uses_custom_code_sig_from_parsed_opts() {
-        let code_sig = make_code_sig(MacroOpts {
-            banner_enabled: false,
-            banner_theme: None,
-            code_sig: Some(Ident::new(
-                "__custom_code_sig_ident__",
-                proc_macro2::Span::call_site(),
-            )),
-        });
-
-        println!("{}", code_sig.to_string());
-        assert!(code_sig.to_string().contains(
-            "static CODE_SIGNATURE : :: vexide :: startup :: CodeSignature = __custom_code_sig_ident__ ;"
-        ));
     }
 
     #[test]
