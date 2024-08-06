@@ -9,15 +9,14 @@
 //! - Program control: [`program`]
 
 #![no_std]
-#![feature(never_type)]
-#![feature(asm_experimental_arch)]
+#![feature(never_type, asm_experimental_arch)]
 
 extern crate alloc;
 
 pub mod allocator;
 pub mod backtrace;
 pub mod competition;
-pub mod float;
+pub mod critical_section;
 pub mod io;
 pub mod program;
 pub mod sync;
