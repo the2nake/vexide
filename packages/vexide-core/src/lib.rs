@@ -16,5 +16,4 @@ pub mod backtrace;
 pub mod competition;
 pub mod critical_section;
 pub mod io;
-pub mod program;
 pub mod sync;
