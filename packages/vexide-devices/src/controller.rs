@@ -7,7 +7,8 @@ use core::{cell::RefCell, time::Duration};
 
 use snafu::Snafu;
 use vex_sdk::{
-    vexCompetitionStatus, vexControllerConnectionStatusGet, vexControllerGet, vexControllerTextSet, V5_ControllerId, V5_ControllerIndex, V5_ControllerStatus
+    vexCompetitionStatus, vexControllerConnectionStatusGet, vexControllerGet, vexControllerTextSet,
+    V5_ControllerId, V5_ControllerIndex, V5_ControllerStatus,
 };
 
 /// Represents the state of a button on the controller.
