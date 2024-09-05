@@ -111,7 +111,7 @@ pub fn main(attrs: TokenStream, item: TokenStream) -> TokenStream {
 
             #banner_print
 
-            ::vexide::block_on(
+            ::vexide::executor::block_on(
                 #inner_ident(::vexide::devices::peripherals::Peripherals::take().unwrap())
             )
         }
