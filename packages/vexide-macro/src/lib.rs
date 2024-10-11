@@ -101,8 +101,14 @@ pub fn main(attrs: TokenStream, item: TokenStream) -> TokenStream {
         syn::ReturnType::Default => quote! { () },
         syn::ReturnType::Type(_, ty) => quote! { #ty },
     };
-    let banner_print = opts.banner.then(|| {
-        quote! { ::vexide::banner::print(); }
+    let banner_print = opts.banner_enabled.then(|| {
+        let theme = if let Some(banner_theme) = opts.banner_theme {
+            quote! { #banner_theme }
+        } else {
+            quote! { ::vexide::banner::themes::THEME_DEFAULT }
+        };
+
+        quote! { ::vexide::banner::print(#theme); }
     });
 
     quote! {
@@ -159,10 +165,29 @@ mod test {
 
     #[test]
     fn toggles_banner_using_parsed_opts() {
-        let entrypoint = make_entrypoint(MacroOpts { banner: false });
+        let source = quote! {
+            async fn main(_peripherals: Peripherals) {
+                println!("Hello, world!");
+            }
+        };
+        let input = syn::parse2::<ItemFn>(source.clone()).unwrap();
+        let entrypoint = make_entrypoint(
+            input.clone(),
+            MacroOpts {
+                banner_enabled: false,
+                banner_theme: None,
+            },
+        );
         assert!(entrypoint.to_string().contains("false"));
         assert!(!entrypoint.to_string().contains("true"));
-        let entrypoint = make_entrypoint(MacroOpts { banner: true });
+
+        let entrypoint = make_entrypoint(
+            input,
+            MacroOpts {
+                banner_enabled: true,
+                banner_theme: None,
+            },
+        );
         assert!(entrypoint.to_string().contains("true"));
         assert!(!entrypoint.to_string().contains("false"));
     }

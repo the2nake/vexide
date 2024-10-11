@@ -42,7 +42,7 @@
     "ltex.language": "en-US",
     "rust-analyzer.cargo.allTargets": false,
     "rust-analyzer.check.targets": [
-        "${workspaceFolder}/armv7a-vex-v5.json",
+        "armv7a-vex-v5",
         "wasm32-unknown-unknown"
     ],
     "rust-analyzer.cargo.extraArgs": [

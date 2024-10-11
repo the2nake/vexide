@@ -307,9 +307,7 @@ impl Controller {
     ///
     /// If the current competition mode is not driver control, this function will error.
     pub fn state(&self) -> Result<ControllerState, ControllerError> {
-        if competition::mode() != CompetitionMode::Driver {
-            return Err(ControllerError::CompetitionControl);
-        }
+        validate_competition_control()?;
         validate_connection(self.id)?;
 
         // Get all current button states
